@@ -3,7 +3,7 @@ name: Deploy to FTP
 on:
   push:
     branches:
-      - main
+      - main  # or the branch you want to deploy from
 
 jobs:
   deploy:
@@ -25,5 +25,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: dist/  # Ensure this ends with a /
+          port: 21  # Specify the port directly
+          local-dir: build/
           server-dir: public_html/
