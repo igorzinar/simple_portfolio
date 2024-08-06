@@ -1,34 +1,29 @@
-name: Deploy React App to Hostinger
+name: Deploy to FTP
 
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      - name: Install dependencies
+        run: yarn install  # or npm install
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Build project
+        run: yarn build  # or npm run build
 
-      - name: Build React App
-        run: npm run build
-
-      - name: Deploy to Hostinger
+      - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: build
+          local-dir: build/  # Ensure this ends with a /
           server-dir: public_html
